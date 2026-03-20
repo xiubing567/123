@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>你的名字｜个人网站</title>
+  <meta name="description" content="一个简洁、现代的个人网站，用来展示你的介绍、作品、项目和联系方式。" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121933;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #f4f7ff;
+      --muted: #b7c0e0;
+      --primary: #7c9cff;
+      --primary-2: #8ef0d0;
+      --shadow: 0 20px 50px rgba(0,0,0,0.25);
+      --radius: 22px;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,156,255,0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(142,240,208,0.12), transparent 25%),
+        linear-gradient(180deg, #0a0f1d 0%, #101933 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(92%, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(8, 12, 24, 0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 92px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-card,
+    .glass-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-card {
+      padding: 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--primary-2);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 1.08;
+      margin-bottom: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 58ch;
+    }
+
+    .cta-group {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 20px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #96a8ff);
+      color: #08101d;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.09);
+    }
+
+    .profile-card {
+      padding: 28px;
+    }
+
+    .avatar {
+      width: 108px;
+      height: 108px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      display: grid;
+      place-items: center;
+      color: #09111d;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .profile-card h2 {
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+    }
+
+    .profile-card .role {
+      color: var(--primary-2);
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    section {
+      padding: 28px 0 38px;
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      margin-bottom: 8px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .about-grid,
+    .projects-grid,
+    .cards-3 {
+      display: grid;
+      gap: 20px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .projects-grid,
+    .cards-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      padding: 26px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      font-size: 1.18rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      font-size: 0.85rem;
+      color: var(--primary-2);
+      border: 1px solid rgba(142,240,208,0.22);
+      background: rgba(142,240,208,0.07);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .project-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      padding: 22px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+    }
+
+    .timeline-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-item small {
+      color: var(--primary-2);
+    }
+
+    .contact {
+      text-align: center;
+      padding-bottom: 80px;
+    }
+
+    .contact-card {
+      padding: 36px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .footer {
+      padding: 26px 0 40px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-grid,
+      .projects-grid,
+      .cards-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 68px;
+        right: 4%;
+        width: min(250px, 88vw);
+        padding: 18px;
+        background: rgba(9, 14, 28, 0.95);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        flex-direction: column;
+        gap: 14px;
+        display: none;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">你的名字</a>
+      <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#about">关于我</a></li>
+          <li><a href="#projects">项目</a></li>
+          <li><a href="#experience">经历</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div class="hero-grid">
+        <div class="hero-card reveal">
+          <div class="eyebrow">👋 欢迎来到我的个人网站</div>
+          <h1>你好，我是你的名字。<br />我在这里展示我的作品、想法和正在做的事。</h1>
+          <p>
+            这里可以放你的一句话介绍。比如：我是一个内容创作者 / 设计师 / 开发者 / 写作者，正在持续做自己感兴趣的项目，并把过程公开分享出来。
+          </p>
+          <div class="cta-group">
+            <a class="btn btn-primary" href="#projects">查看项目</a>
+            <a class="btn btn-secondary" href="#contact">联系我</a>
+          </div>
+        </div>
+
+        <aside class="profile-card glass-card reveal">
+          <div class="avatar">你</div>
+          <h2>你的名字</h2>
+          <div class="role">个人创作者 / 自由职业者 / 你的身份</div>
+          <p style="color: var(--muted);">
+            这一栏适合放你的简短定位，例如：关注科技、创作、产品、设计、写作，正在建立属于自己的长期项目。
+          </p>
+          <div class="meta">
+            <div>📍 所在地：你的城市</div>
+            <div>💼 方向：写上你的领域</div>
+            <div>✉️ 邮箱：your@email.com</div>
+            <div>🔗 社交：微博 / 小红书 / GitHub / X</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <div class="section-head reveal">
+        <h2>关于我</h2>
+        <p>这一部分用来让别人快速认识你：你是谁、你在做什么、你擅长什么、你关心什么问题。</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="card reveal">
+          <h3>我的介绍</h3>
+          <p>
+            这里可以写 2 到 4 段介绍文字。建议不要太长，重点讲清楚你的身份、方向和独特之处。
+            例如：我长期关注某个领域，喜欢把复杂的内容讲清楚，也在尝试把创作、技术和表达结合起来。
+          </p>
+          <div class="tags">
+            <span class="tag">内容创作</span>
+            <span class="tag">个人品牌</span>
+            <span class="tag">网站建设</span>
+            <span class="tag">长期主义</span>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h3>我能做什么</h3>
+          <p>
+            你可以在这里列出你的能力和服务，比如：内容策划、视频制作、文案写作、网页设计、产品搭建、咨询合作等等。
+          </p>
+          <div class="tags">
+            <span class="tag">策划</span>
+            <span class="tag">写作</span>
+            <span class="tag">设计</span>
+            <span class="tag">项目执行</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="container">
+      <div class="section-head reveal">
+        <h2>项目 / 作品</h2>
+        <p>把你最想展示的内容放在这里。可以是网站、视频、文章、产品、设计稿、课程、研究项目。</p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="card reveal">
+          <h3>项目一：你的项目名称</h3>
+          <p>
+            这里写项目简介：做了什么、解决了什么问题、面向谁、有什么结果。尽量具体一点。
+          </p>
+          <div class="tags">
+            <span class="tag">项目标签</span>
+            <span class="tag">案例展示</span>
+          </div>
+          <a class="project-link" href="#">查看详情 →</a>
+        </article>
+
+        <article class="card reveal">
+          <h3>项目二：你的项目名称</h3>
+          <p>
+            这里可以换成你的内容账号、专栏、个人产品、作品集，或者一个正在开发中的项目。
+          </p>
+          <div class="tags">
+            <span class="tag">内容产品</span>
+            <span class="tag">持续更新</span>
+          </div>
+          <a class="project-link" href="#">查看详情 →</a>
+        </article>
+
+        <article class="card reveal">
+          <h3>项目三：你的项目名称</h3>
+          <p>
+            如果你还没有项目，也可以先放“正在建设中”的内容，把这个网站当成你的起点页面。
+          </p>
+          <div class="tags">
+            <span class="tag">建设中</span>
+            <span class="tag">新计划</span>
+          </div>
+          <a class="project-link" href="#">查看详情 →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-head reveal">
+        <h2>我的特点</h2>
+        <p>这一块适合补充你的工作方式、价值观、合作风格，帮助别人更立体地理解你。</p>
+      </div>
+
+      <div class="cards-3">
+        <div class="card reveal">
+          <h3>长期主义</h3>
+          <p>我更关注持续积累，而不是一次性的爆发。希望把每一步都变成未来资产。</p>
+        </div>
+        <div class="card reveal">
+          <h3>公开构建</h3>
+          <p>我会把学习、制作和迭代的过程公开分享，让网站本身也成为内容的一部分。</p>
+        </div>
+        <div class="card reveal">
+          <h3>审美与表达</h3>
+          <p>我希望做出来的东西不仅有用，也有自己的气质和表达方式。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="container">
+      <div class="section-head reveal">
+        <h2>经历</h2>
+        <p>这里不一定非得写传统简历，也可以写你的成长过程、阶段项目、里程碑节点。</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-top">
+            <strong>阶段一：开始做自己的项目</strong>
+            <small>2024 - 现在</small>
+          </div>
+          <p>写这里：比如开始做个人品牌、搭建内容系统、尝试网站、学习产品和技术工具。</p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-top">
+            <strong>阶段二：代表作品 / 重要尝试</strong>
+            <small>2023 - 2024</small>
+          </div>
+          <p>写这里：比如做过哪些内容、累计了什么结果、获得了哪些经验和反馈。</p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-top">
+            <strong>阶段三：更早之前</strong>
+            <small>更早</small>
+          </div>
+          <p>写这里：可以是学习背景、转型经历、以前的工作经验，或者你真正开始关注这个方向的契机。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact container">
+      <div class="contact-card glass-card reveal">
+        <div class="section-head" style="margin-bottom: 0;">
+          <h2>联系我</h2>
+          <p>如果你想合作、交流，或者只是想打个招呼，都可以通过下面的方式联系我。</p>
+        </div>
+
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:your@email.com">发邮件给我</a>
+          <a class="btn btn-secondary" href="#">GitHub</a>
+          <a class="btn btn-secondary" href="#">X / Twitter</a>
+          <a class="btn btn-secondary" href="#">小红书 / 微博</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <p>© <span id="year"></span> 你的名字. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    const year = document.getElementById('year');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    year.textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
